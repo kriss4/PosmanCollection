@@ -1,0 +1,390 @@
+{
+	"info": {
+		"_postman_id": "f6013a51-5d50-4021-bae7-9bb9fca55bb9",
+		"name": "ApolloTitan_Postman_Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Boards",
+			"item": [
+				{
+					"name": "GET_AllBoard",
+					"_postman_id": "6b2f2363-1245-4632-b064-60399b7e2678",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}/api/boards"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_FilteredBoards",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "095c4cf9-8d80-4d61-b317-6c46a8b15191",
+								"exec": [
+									"/*\r",
+									"pm.collectionVariables.set(\"myTest\", \"123\");\r",
+									"console.log(pm.collectionVariables.get(\"myTest\"));\r",
+									"pm.collectionVariables.unset(\"myTest\");\r",
+									"console.log(`The value of myTest after unSetting is: ${pm.collectionVariables.get(\"myTest\")}`);\r",
+									"*/\r",
+									"let tId = pm.environment.get(\"myTicketId\");\r",
+									"pm.sendRequest(`http://localhost:3000/api/tickets/${tId}`, (err, response) => {\r",
+									"    console.log(response.json());\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ff05b7d-9b75-4462-83ac-6921c6fb326e",
+								"exec": [
+									"pm.test(\"Should have a valid response\", ()=> {\r",
+									"    console.log(\"Testing...\")\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "6fa32de9-cc8f-49d8-8780-3eba5403d787",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/boards?ps={{ps}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"boards"
+							],
+							"query": [
+								{
+									"key": "ps",
+									"value": "{{ps}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST_SeachBoardsByDescription",
+					"_postman_id": "fa737aa5-0777-4c7a-8dac-fa98f0cdad40",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filters\":[\r\n        {\r\n            \"field\":\"description\",\r\n            \"value\":\"management\"\r\n        }\r\n    ],\r\n    \"sort\" : \"name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/boards/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"boards",
+								"search"
+							],
+							"query": [
+								{
+									"key": "pn",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST_SeachBoardsByName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b9bce052-84c3-42ff-9e91-ded888ccfeb1",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "8d52e1f7-3c90-4717-84a3-36b855eb9e43",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filters\":[\r\n        {\r\n            \"field\":\"{{FieldName}}\",\r\n            \"value\":\"Gabriel\"\r\n        }\r\n    ],\r\n    \"sort\" : \"name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/boards/search",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"boards",
+								"search"
+							],
+							"query": [
+								{
+									"key": "pn",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT_UpdateBoardById",
+					"_postman_id": "636a15c3-a12c-4b41-90e5-0826c0abd501",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"b2753dd0-f7fc-11ec-b3be-3f6226a0c625\",\r\n    \"ownerId\": \"53bc3320-2258-11e9-8dff-6513ef8e5493\",\r\n    \"name\": \"Introducing Domain Driven Development by Gabriel Martinez Chapter 1\",\r\n    \"description\": \"Tasks related to request management and organization\",\r\n    \"public\": true,\r\n    \"active\": true,\r\n    \"ownerName\": \"Demo User\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/boards/9e33eba0-2258-11e9-8dff-6513ef8e5493"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete_BoardById",
+					"_postman_id": "a1e2e80b-7d3e-47c6-8550-60afaab29c2c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3000/api/boards/{{BOARD_ID}}"
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "d3254019-a193-4cfb-b5cf-c19cbd53692a",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{authToken}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fa2c1fcd-a9a2-470f-be1b-75d8ee3a58df",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ab06d073-4c03-4615-9e7d-6c7a62ebbcb1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "GET_All_USERS",
+					"_postman_id": "f0feb721-883b-4032-aacf-3f87348b9b07",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/users"
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "c1cc39db-f885-454f-bf1c-79e761dbcdd6"
+		},
+		{
+			"name": "Tickets",
+			"item": [
+				{
+					"name": "GET_TicketById",
+					"_postman_id": "eac95443-830e-4ec3-ab66-384ec09093e9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/tickets/{{myTicketId}}"
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "1c3e2d82-e3bf-419d-bbf0-4076e2030e84"
+		},
+		{
+			"name": "GET_API_STATUS",
+			"_postman_id": "ba0f36ac-b628-4a7d-bbd2-b85dca6d261a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/api/"
+			},
+			"response": []
+		},
+		{
+			"name": "GET_AUTH",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6956a771-61e9-4e04-aa7b-e53507e0d70e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a443c8d2-0f18-46ea-8b29-b210123c8f3f",
+						"exec": [
+							"if(pm.response.code === 200) {\r",
+							"    pm.collectionVariables.unset(\"authToken\");\r",
+							"    console.log(pm.collectionVariables.get(\"authToken\"));\r",
+							"    let data = pm.response.json();\r",
+							"    console.log(`Set authToken: ${data.token}`);\r",
+							"    pm.collectionVariables.set(\"authToken\", data.token);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"_postman_id": "7d127b4c-8e79-4444-8f7c-ee94b0a7328a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"demouser\",\r\n    \"password\":\"demopassword\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/api/auth"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{authToken}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "71771852-e745-4759-8e8c-8541f157c5fe",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4a259940-78a4-4991-8d0f-f0de547ee530",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "916d0962-a75a-4662-baba-e3150b9666a2",
+			"key": "authToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUzYmMzMzIwLTIyNTgtMTFlOS04ZGZmLTY1MTNlZjhlNTQ5MyIsInVzZXJuYW1lIjoiZGVtb3VzZXIiLCJmaXJzdG5hbWUiOiJEZW1vIiwibGFzdG5hbWUiOiJVc2VyIiwiaWF0IjoxNjU2NTQyODIyLCJleHAiOjE2NTY1NDY0MjJ9.4qTeIFyB4Ft4od8FJuQU3AoDgpimrrx9b3ckKBZTn9s",
+			"type": "string"
+		}
+	]
+}
